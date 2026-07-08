@@ -1,33 +1,16 @@
-package in.coderarmy.crudSpringBootDemo.Entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+package in.coderarmy.crudSpringBootDemo.DTO;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UpdateStudentResponseDto {
+
     private Long id;
-    @NotBlank(message = "Name can not be empty/blank/null")
     private String name;
-    @Min(value = 18 ,message = "User age should be Greater than 18")
     private int age;
-    @Email(message = "Email should be in proper formate")
     private String email;
-    @NotNull(message = "Roll Number is Mandatory")
     private int rollNo;
-    @NotBlank
     private String subject;
-    private boolean deleted;
-    private LocalDateTime createdDate;
+    private String message;
     private LocalDateTime updatedDate;
 
     public Long getId() {
@@ -78,21 +61,14 @@ public class Student {
         this.subject = subject;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
 
     public LocalDateTime getUpdatedDate() {
         return updatedDate;

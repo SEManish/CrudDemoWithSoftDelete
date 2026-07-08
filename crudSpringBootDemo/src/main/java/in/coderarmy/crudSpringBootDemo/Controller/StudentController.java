@@ -1,8 +1,11 @@
 package in.coderarmy.crudSpringBootDemo.Controller;
-
+import in.coderarmy.crudSpringBootDemo.DTO.UpdateStudentRequestDto;
+import in.coderarmy.crudSpringBootDemo.DTO.UpdateStudentResponseDto;
+import in.coderarmy.crudSpringBootDemo.DTO.CreateStudentRequestDto;
+import in.coderarmy.crudSpringBootDemo.DTO.CreateStudentResponseDto;
 import in.coderarmy.crudSpringBootDemo.Entity.Student;
 import in.coderarmy.crudSpringBootDemo.Services.StudentService;
-import org.apache.coyote.Response;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,32 +23,31 @@ public class StudentController {
 
 
 
-
     @PostMapping("/create")
- public ResponseEntity<Student> createStudent(@RequestBody Student student){
-Student createStudent=studentService.createStudent(student);
+ public ResponseEntity<CreateStudentResponseDto> createStudent(@Valid @RequestBody CreateStudentRequestDto studentRequestDto){
+        CreateStudentResponseDto createStudent=studentService.createStudent(studentRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createStudent);
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Student> getStudent(@RequestParam Long id){
-       Student studentResp= studentService.getStudent(id);
-
-       if(studentResp==null){
+    public ResponseEntity<CreateStudentResponseDto> getStudent(@RequestParam Long id){
+        CreateStudentResponseDto studentResps = studentService.getStudent(id);
+        if(studentResps==null){
            return ResponseEntity.notFound().build();
        }
-
-       return ResponseEntity.ok(studentResp);
+       return ResponseEntity.ok(studentResps);
     }
+
+
 @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudents(){
-List<Student> studentResp=studentService.getAllStudents();
+    public ResponseEntity<List<CreateStudentResponseDto>> getAllStudents(){
+List<CreateStudentResponseDto> studentResp=studentService.getAllStudents();
     return ResponseEntity.ok(studentResp);
 }
 
 @PutMapping("update/{id}")
-public ResponseEntity<Student> updateStudent(@PathVariable Long id,@RequestBody Student student){
-     Student studentResp=studentService.updateStudent(id,student);
+public ResponseEntity<UpdateStudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentRequestDto updateStudentRequestDto){
+    UpdateStudentResponseDto studentResp=studentService.updateStudent(id,updateStudentRequestDto);
      if(studentResp==null){
          return ResponseEntity.notFound().build();
      }
@@ -72,12 +74,5 @@ Boolean isdeleted=studentService.deleteStudentSoftly(id);
     }
     return ResponseEntity.ok("Deleted Successfully");
 }
-//@PatchMapping("s/{id}")
-//public ResponseEntity<String> softDelete(@PathVariable Long id){
-//    Boolean isDeleted = studentService.deleteStudentSoftly(id);
-//    if(!isDeleted){
-//        return ResponseEntity.notFound().build();
-//    }
-//    return ResponseEntity.ok("Record deleted");
-//}
+
 }
